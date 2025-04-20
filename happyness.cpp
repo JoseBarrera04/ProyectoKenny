@@ -6,6 +6,7 @@
 
 // Librerias
 #include <iostream>
+#include <queue>
 #include <vector>
 
 using namespace std;
@@ -55,4 +56,15 @@ int main() {
 }
 
 int dijkstra() {
+    int totalDias = -1;
+
+    vector<vector<int>> distancia (1, vector<int> (10000000000));
+    priority_queue<int, vector<int>, greater<int>> pq;
+
+    pq.push(0);
+
+    while (!pq.empty()) {
+    }
+
+    return totalDias;
 }
