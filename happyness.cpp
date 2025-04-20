@@ -4,10 +4,14 @@
  * happyness.cpp
  */
 
+// Librerias
 #include <iostream>
 #include <vector>
 
 using namespace std;
+
+// Funciones
+int dijkstra();
 
 /**
  * Main Principal GRAN IMPERIO AGRA
@@ -20,6 +24,8 @@ int main() {
     for (int caso = 0; caso < numCasos; caso++) {
         int numCiudades = 0, numTiquetesBus = 0, dineroInicial = 0, precioDoll = 0;
         cin >> numCiudades >> numTiquetesBus >> dineroInicial >> precioDoll;
+
+        int dineroDisponible = dineroInicial - precioDoll; // Dinero de Kenny al Comprar la muñeca
 
         vector<int> salarioCiudades(numCiudades + 1);
         for (int i = 1; i <= numCiudades; i++) {
@@ -37,8 +43,16 @@ int main() {
             grafo[idCiudad].push_back({idTiquete, precioTiquete});
         }
 
-        cout << "Kenny happiness will cost h days of work :)" << endl;
-        cout << "Sorry Kenny, Happiness is not for you :(" << endl;
+        int numDias = dijkstra();
+
+        if (numDias != -1) {
+            cout << "Kenny happiness will cost " << numDias << " days of work :)" << endl;
+        } else {
+            cout << "Sorry Kenny, Happiness is not for you :(" << endl;
+        }
     }
     return 0;
+}
+
+int dijkstra() {
 }
