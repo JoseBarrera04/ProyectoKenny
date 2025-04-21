@@ -8,11 +8,20 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
+// Struct
+struct Kenny {
+    int diasTrabajados;
+    int ciudadActual;
+    int dineroActual;
+};
+
 // Funciones
-int dijkstra();
+int dijkstra( vector<int>& salarioCiudades, int& capital, int& destino, vector<vector<pair<int, int>>>& grafo,
+    int& numCiudades, int& dineroDisponible);
 
 /**
  * Main Principal GRAN IMPERIO AGRA
@@ -44,7 +53,7 @@ int main() {
             grafo[idCiudad].push_back({idTiquete, precioTiquete});
         }
 
-        int numDias = dijkstra();
+        int numDias = dijkstra(salarioCiudades, capital, destino, grafo, numCiudades, dineroDisponible);
 
         if (numDias != -1) {
             cout << "Kenny happiness will cost " << numDias << " days of work :)" << endl;
@@ -55,15 +64,36 @@ int main() {
     return 0;
 }
 
-int dijkstra() {
+/**
+ * Hola
+ * @param salarioCiudades
+ * @param capital
+ * @param destino
+ * @param grafo
+ * @param numCiudades
+ * @return
+ */
+int dijkstra( vector<int>& salarioCiudades, int& capital, int& destino, vector<vector<pair<int, int>>>& grafo,
+              int& numCiudades, int& dineroDisponible) {
+
     int totalDias = -1;
 
-    vector<vector<int>> distancia (1, vector<int> (10000000000));
-    priority_queue<int, vector<int>, greater<int>> pq;
+    vector<unordered_map<int, int>> distancia (numCiudades + 1);
+    priority_queue<Kenny, vector<Kenny>, greater<Kenny>> pq;
 
-    pq.push(0);
+    pq.push({0, capital, dineroDisponible});
+    distancia[capital][dineroDisponible] = 0;
+    bool continuar = true;
 
-    while (!pq.empty()) {
+    while (!pq.empty() && continuar) {
+        Kenny kenny = pq.top();
+        pq.pop();
+
+        if (kenny.ciudadActual == destino) {
+            totalDias = kenny.diasTrabajados;
+            continuar = false;
+        } else {
+        }
     }
 
     return totalDias;
