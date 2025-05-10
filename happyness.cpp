@@ -2,6 +2,7 @@
  * @author Jose Barrera Ramos
  * Arboles y grafos 20251
  * happyness.cpp
+ * Complejidad 0() No se aun :D
  */
 
 // Librerias
@@ -33,7 +34,7 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
  * @return
  */
 int main() {
-    auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
+    //auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
     int numCasos = 0;
     cin >> numCasos;
 
@@ -66,21 +67,20 @@ int main() {
 
         if (incidenciaAux == 0 && capital != destino) {
             cout << "Sorry Kenny, Happiness is not for you :(" << endl;
-            continue;
-        }
-
-        int numDias = dijkstra(salarioCiudades, capital, destino, grafo, numCiudades,
+        } else {
+            int numDias = dijkstra(salarioCiudades, capital, destino, grafo, numCiudades,
                                dineroDisponible, incidenciaAux);
 
-        if (numDias != -1) {
-            cout << "Kenny happiness will cost " << numDias << " days of work :)" << endl;
-        } else {
-            cout << "Sorry Kenny, Happiness is not for you :(" << endl;
+            if (numDias != -1) {
+                cout << "Kenny happiness will cost " << numDias << " days of work :)" << endl;
+            } else {
+                cout << "Sorry Kenny, Happiness is not for you :(" << endl;
+            }
         }
     }
-    auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
-    chrono::duration<double> duration = end - start;
-    cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
+    // auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
+    // chrono::duration<double> duration = end - start;
+    // cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
     return 0;
 }
 
