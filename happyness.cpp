@@ -33,7 +33,7 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
  * @return
  */
 int main() {
-    auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
+    //auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
     int numCasos = 0;
     cin >> numCasos;
 
@@ -68,9 +68,9 @@ int main() {
             cout << "Sorry Kenny, Happiness is not for you :(" << endl;
         }
     }
-    auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
-    chrono::duration<double> duration = end - start;
-    cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
+    // auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
+    // chrono::duration<double> duration = end - start;
+    // cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
     return 0;
 }
 
@@ -85,7 +85,9 @@ int main() {
  */
 int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<vector<pair<int, int>>>& grafo,
              int& numCiudades, int& dineroDisponible) {
+
     int totalDias = -1;
+
     vector<vector<int>> distancia (numCiudades + 1, vector<int>(10000, -1));
     priority_queue<Kenny, vector<Kenny>, greater<Kenny>> pq;
 
@@ -105,6 +107,7 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
                 totalDias = dias;
                 continuar = false;
             } else {
+                // Trabajar
                 if (dias + 1 < 10000) {
                     int dineroNuevo = dineroActual + salarioCiudades[nodoActual];
                     if (dineroNuevo >= distancia[nodoActual][dias + 1]) {
@@ -113,6 +116,7 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
                     }
                 }
 
+                // Tomar un Bus
                 for (vector<pair<int, int>>::iterator it = grafo[nodoActual].begin();
                     it != grafo[nodoActual].end(); it++) {
 
