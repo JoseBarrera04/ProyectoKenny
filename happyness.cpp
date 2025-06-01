@@ -2,7 +2,7 @@
  * @author Jose Barrera Ramos
  * Arboles y grafos 20251
  * happyness.cpp
- * Complejidad 0() No se aun :D
+ * Complejidad 0()
  */
 
 // Librerias
@@ -33,7 +33,7 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
  * @return
  */
 int main() {
-    //auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
+    auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
     int numCasos = 0;
     cin >> numCasos;
 
@@ -68,9 +68,9 @@ int main() {
             cout << "Sorry Kenny, Happiness is not for you :(" << endl;
         }
     }
-    // auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
-    // chrono::duration<double> duration = end - start;
-    // cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
+    auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
+    chrono::duration<double> duration = end - start;
+    cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
     return 0;
 }
 
@@ -116,7 +116,7 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
                     }
                 }
 
-                // Tomar un Bus
+                // Tomar el Bus
                 for (vector<pair<int, int>>::iterator it = grafo[nodoActual].begin();
                     it != grafo[nodoActual].end(); it++) {
 
