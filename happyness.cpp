@@ -1,8 +1,13 @@
 /**
  * @author Jose Barrera Ramos
  * Arboles y grafos 20251
- * happyness.cpp
- * Complejidad 0()
+ * Proyecto happyness.cpp
+ * Complejidad temporal 0( N * D * log(N * D) * G )
+ * Complejidad espacial 0( N * D )
+ *
+ * N: Numero de Ciudades
+ * D: Dias posibles
+ * G: Numero de conexiones nuevas por Ciudad
  */
 
 // Librerias
@@ -15,12 +20,19 @@ using namespace std;
 
 // Struct
 struct Kenny {
-    int diasTrabajados;
+    int diasTrabajados; // Costo Dijkstra
+
+    // Grafo Estados
     int ciudadActual;
     int dineroActual;
 
+    // Sobrecarga para ordebar en la Priority Queue
     bool operator>(const Kenny& other) const {
-        return diasTrabajados > other.diasTrabajados;
+        bool ans = dineroActual < other.dineroActual;
+        if (diasTrabajados != other.diasTrabajados) {
+            ans = diasTrabajados > other.diasTrabajados;
+        }
+        return ans;
     }
 };
 
@@ -34,9 +46,11 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
  */
 int main() {
     auto start = chrono::high_resolution_clock::now(); // Tiempo de inicio
+
     int numCasos = 0;
     cin >> numCasos;
 
+    // Ciclo para procesar el numero de casos
     for (int caso = 0; caso < numCasos; caso++) {
         int numCiudades = 0, numTiquetesBus = 0, dineroInicial = 0, precioDoll = 0;
         cin >> numCiudades >> numTiquetesBus >> dineroInicial >> precioDoll;
@@ -51,6 +65,7 @@ int main() {
         int capital = 0, destino = 0;
         cin >> capital >> destino;
 
+        // Creacion del grafo del GRAN IMPERIO AGRA
         vector<vector<pair<int, int>>> grafo(numCiudades + 1);
         for (int i = 0; i < numTiquetesBus; i++) {
             int idCiudad = 0, idTiquete = 0, precioTiquete = 0;
@@ -68,6 +83,8 @@ int main() {
             cout << "Sorry Kenny, Happiness is not for you :(" << endl;
         }
     }
+
+    // Calcular tiempo de ejecucion:
     auto end = chrono::high_resolution_clock::now(); // Tiempo de finalización
     chrono::duration<double> duration = end - start;
     cout << "Tiempo total de ejecución: " << duration.count() << " segundos" << endl;
@@ -81,6 +98,7 @@ int main() {
  * @param destino Ciudad a la que debe llegar Kenny
  * @param grafo
  * @param numCiudades
+ * @param dineroDisponible Dinero Inicial de Kenny
  * @return
  */
 int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<vector<pair<int, int>>>& grafo,
@@ -88,21 +106,36 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
 
     int totalDias = -1;
 
+    // Vectores de distancias
     vector<vector<int>> distancia (numCiudades + 1, vector<int>(10000, -1));
+    vector<int> distanciaDias (numCiudades + 1, 10000);
+
     priority_queue<Kenny, vector<Kenny>, greater<Kenny>> pq;
 
     distancia[capital][0] = dineroDisponible;
+    distanciaDias[0] = 0;
     pq.push({0, capital, dineroDisponible});
 
     bool continuar = true;
     while (!pq.empty() && continuar) {
+
         Kenny kenny = pq.top();
         int dias = kenny.diasTrabajados;
         int nodoActual = kenny.ciudadActual;
         int dineroActual = kenny.dineroActual;
         pq.pop();
 
+        /**
+         * La cola de prioridad ordena los estados priorizando los estados que tengan menor cantidad de dias y en caso
+         * de ser iguales prioriza el estado con mejor dinero, permitiendonos asi trabajar con los mejores estados y
+         * asi descartar estados innecesarios, por lo que solo se ejecuta dijkstra si el caso actual es mejor a algun
+         * caso anterior.
+         */
         if (dineroActual >= distancia[nodoActual][dias]) {
+            // Actualizacion vector de distancia de Dias
+            if (dias < distanciaDias[nodoActual]) {
+                distanciaDias[nodoActual] = dias;
+            }
             if (nodoActual == destino && totalDias == -1) {
                 totalDias = dias;
                 continuar = false;
@@ -135,5 +168,5 @@ int dijkstra(vector<int>& salarioCiudades, int& capital, int& destino, vector<ve
         }
     }
 
-    return totalDias;
+    return distanciaDias[destino] == 10000 ? -1 : distanciaDias[destino];
 }
